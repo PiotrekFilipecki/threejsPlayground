@@ -1,18 +1,19 @@
+import { Canvas } from '@react-three/fiber'
+import React, { Suspense, useEffect } from 'react'
+import { Scene } from '../components/home/Scene'
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
-import { Canvas } from "@react-three/fiber";
-import Floor from "../components/Floor";
-import Box from "../components/Box";
-import OrbitControls from "../components/OrbitControls";
-import LightBulb from "../components/LightBulb";
-import Draggable from "../components/Draggable";
+
 import styles from '../styles/Home.module.scss'
-import {Suspense} from "react";
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  useEffect(() =>
+  {        
+      document.body.classList.add("home");
+  });
   return (
     <>
       <Head>
@@ -21,25 +22,13 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className={styles.scene}>
-      <Canvas
-        shadows={true}
-        className={styles.canvas}
-        camera={{
-          position: [-6, 7, 7],
-        }}
-      >
-          <ambientLight color={"white"} intensity={0.2} />
-            <LightBulb position={[0, 5, 0]} />
-            <Draggable>
-            <Suspense fallback={null}>
-              <Box rotateX={3} rotateY={0.2} />
-            </Suspense>
-            </Draggable>
-            <OrbitControls />
-            <Floor position={[0, -1, 0]} />
-      </Canvas>
-      </div>
+      <Canvas>
+      <ambientLight />
+      <directionalLight color="red" intensity={10} />
+      <Suspense fallback={null}>
+        <Scene />
+      </Suspense>
+    </Canvas>
     </>
   )
 }
